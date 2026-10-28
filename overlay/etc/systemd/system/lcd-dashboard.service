@@ -1,0 +1,10 @@
+[Unit]
+Description=LCD dashboard on /dev/tty1 (max brightness)
+
+[Service]
+ExecStartPre=/bin/sh -c 'echo 10 > /sys/class/backlight/backlight/brightness; echo 0 > /sys/class/graphics/fb0/blank'
+ExecStart=/usr/bin/python3 /usr/local/bin/lcd_dashboard.py --daemon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

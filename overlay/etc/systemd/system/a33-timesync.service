@@ -1,0 +1,12 @@
+[Unit]
+Description=Set the clock from the web (no RTC battery)
+After=a33-wifi.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/a33-timesync.sh
+RemainAfterExit=yes
+TimeoutStartSec=700
+
+[Install]
+WantedBy=multi-user.target

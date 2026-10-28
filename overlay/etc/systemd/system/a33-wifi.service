@@ -1,0 +1,10 @@
+[Unit]
+Description=Wi-Fi client (wpa_supplicant WEXT + DHCP) on wlan0
+After=rda5990-wake.service
+
+[Service]
+ExecStart=/usr/local/sbin/a33-wifi.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

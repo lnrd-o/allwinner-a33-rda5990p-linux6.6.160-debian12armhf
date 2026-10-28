@@ -1,0 +1,12 @@
+[Unit]
+Description=Power and wake the RDA5990P Wi-Fi chip (I2C wake-up)
+After=systemd-modules-load.service local-fs.target
+Before=a33-wifi.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/local/sbin/rda5990-wake.py
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=USB OTG composite gadget (RNDIS network + ACM serial)
+DefaultDependencies=no
+After=sysinit.target
+Before=serial-getty@ttyGS0.service systemd-networkd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/usb-gadget.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

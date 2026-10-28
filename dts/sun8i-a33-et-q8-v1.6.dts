@@ -1,0 +1,108 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/dts-v1/;
+#include "sun8i-a33-q8-tablet.dts"
+#include <dt-bindings/clock/sun6i-rtc.h>
+
+/ {
+	model = "ET Q8 A33 v1.6 Tablet";
+	compatible = "allwinner,sun8i-a33-et-q8-v1.6", "allwinner,q8-a33", "allwinner,sun8i-a33";
+
+	leds {
+		compatible = "gpio-leds";
+
+		flash_pb0 {
+			label = "q8:flash:pb0";
+			gpios = <&pio 1 0 GPIO_ACTIVE_HIGH>; /* PB0 */
+			default-state = "off";
+		};
+
+		flash_pb1 {
+			label = "q8:flash:pb1";
+			gpios = <&pio 1 1 GPIO_ACTIVE_HIGH>; /* PB1 */
+			default-state = "off";
+		};
+
+		flash_pb7 {
+			label = "q8:flash:pb7";
+			gpios = <&pio 1 7 GPIO_ACTIVE_HIGH>; /* PB7 */
+			default-state = "off";
+		};
+	};
+};
+
+&rtc {
+	/delete-property/ clocks;
+	assigned-clocks = <&rtc CLK_OSC32K_FANOUT>;
+	assigned-clock-rates = <32768>;
+};
+
+&i2c0 {
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+};
+
+&i2c2 {
+	status = "okay";
+};
+
+&mmc0 {
+	vmmc-supply = <&reg_dcdc1>;
+	bus-width = <4>;
+	cd-gpios = <&pio 1 4 GPIO_ACTIVE_LOW>; /* PB4 */
+	broken-cd;
+	status = "okay";
+};
+
+&mmc1 {
+	vmmc-supply = <&reg_dldo1>;
+	vqmmc-supply = <&reg_dldo2>;
+	/delete-property/ mmc-pwrseq;
+	bus-width = <4>;
+	broken-cd;
+	/delete-property/ non-removable;
+	cap-sdio-irq;
+	keep-power-in-suspend;
+	status = "okay";
+
+	sdio_wifi: sdio_wifi@1 {
+		reg = <1>;
+		compatible = "rda,rda5890";
+	};
+};
+
+&pio {
+	vcc-pg-supply = <&reg_dldo1>;
+};
+
+&reg_dldo1 {
+	regulator-always-on;
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-name = "vcc-wifi";
+};
+
+&reg_dldo2 {
+	regulator-always-on;
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-name = "vcc-wifi-ext";
+};
+
+&reg_ldo_io0 {
+	regulator-always-on;
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-name = "vcc-wifi-power-switch";
+	status = "okay";
+};
+
+&reg_ldo_io1 {
+	regulator-always-on;
+	regulator-min-microvolt = <3300000>;
+	regulator-max-microvolt = <3300000>;
+	regulator-name = "vcc-touchscreen";
+	status = "okay";
+};

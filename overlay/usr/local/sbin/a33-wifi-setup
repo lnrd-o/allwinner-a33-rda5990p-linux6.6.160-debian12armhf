@@ -1,0 +1,8 @@
+#!/bin/sh
+# a33-wifi-setup "SSID"  - asks for the password (hidden) and writes /etc/wpa_supplicant/a33-wlan0.conf
+[ -n "$1" ] || { echo 'usage: a33-wifi-setup "SSID"'; exit 1; }
+printf 'Password for %s (hidden): ' "$1"; stty -echo; read PW; stty echo; echo
+mkdir -p /etc/wpa_supplicant
+{ echo "ctrl_interface=/run/wpa_supplicant"; printf '%s\n' "$PW" | wpa_passphrase "$1" | grep -v '#psk'; } > /etc/wpa_supplicant/a33-wlan0.conf
+chmod 600 /etc/wpa_supplicant/a33-wlan0.conf; unset PW
+systemctl restart a33-wifi.service && echo "Wi-Fi restarted. Check: iwconfig wlan0; ip -4 addr show wlan0"

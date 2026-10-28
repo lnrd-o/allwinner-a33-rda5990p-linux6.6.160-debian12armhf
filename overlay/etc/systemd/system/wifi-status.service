@@ -1,0 +1,10 @@
+[Unit]
+Description=Wi-Fi status writer for the LCD dashboard
+After=rda5990-wake.service
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/wifi_status.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

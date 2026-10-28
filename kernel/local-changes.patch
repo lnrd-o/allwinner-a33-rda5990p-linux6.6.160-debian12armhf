@@ -1,0 +1,40 @@
+diff --git a/drivers/mmc/core/core.c b/drivers/mmc/core/core.c
+index 39b5846db..7680dd7c6 100644
+--- a/drivers/mmc/core/core.c
++++ b/drivers/mmc/core/core.c
+@@ -2055,8 +2055,8 @@ static int mmc_rescan_try_freq(struct mmc_host *host, unsigned freq)
+ {
+ 	host->f_init = freq;
+ 
+-	pr_debug("%s: %s: trying to init card at %u Hz\n",
+-		mmc_hostname(host), __func__, host->f_init);
++	pr_info("=== [MMC_DEBUG] %s: trying init at %u Hz ===\n",
++		mmc_hostname(host), freq);
+ 
+ 	mmc_power_up(host, host->ocr_avail);
+ 
+diff --git a/drivers/mmc/core/sdio_ops.c b/drivers/mmc/core/sdio_ops.c
+index 4c229dd2b..9c1e04088 100644
+--- a/drivers/mmc/core/sdio_ops.c
++++ b/drivers/mmc/core/sdio_ops.c
+@@ -56,6 +56,9 @@ int mmc_send_io_op_cond(struct mmc_host *host, u32 ocr, u32 *rocr)
+ 	if (rocr)
+ 		*rocr = cmd.resp[mmc_host_is_spi(host) ? 1 : 0];
+ 
++	pr_info("=== [MMC_DEBUG] %s: CMD5 ocr=0x%08x err=%d resp[0]=0x%08x ===\n",
++		mmc_hostname(host), ocr, err, cmd.resp[0]);
++
+ 	return err;
+ }
+ 
+diff --git a/net/wireless/Kconfig b/net/wireless/Kconfig
+index f620acd2a..faefda243 100644
+--- a/net/wireless/Kconfig
++++ b/net/wireless/Kconfig
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config WIRELESS_EXT
++	default y
+ 	bool
+ 
+ config WEXT_CORE

@@ -1,0 +1,8 @@
+# Do NOT put real passwords in the repository. Create the real file on the tablet with:
+#   a33-wifi-setup "Your SSID"
+ctrl_interface=/run/wpa_supplicant
+network={
+    ssid="Your SSID"
+    psk="your password"
+    key_mgmt=WPA-PSK
+}
