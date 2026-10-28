@@ -1,0 +1,1 @@
+# allwinner-a33-rda5990p-linux6.6.160-debian12armhf
